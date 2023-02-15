@@ -38,6 +38,30 @@ defined('ABSPATH') or die('Hey you, gerarahia!');
 /*-------------------------------------------------------------------------*/
 if(!class_exists('Wilson')){
     class Wilson{
-        
+        public function __construct(){
+
+        }
+
+        public function activate(){
+            echo 'activates';
+            flush_rewrite_rules();
+        }
+
+        public function deactivate(){
+            flush_rewrite_rules();
+        }
+
+        public function uninstall(){
+
+        }
     }
 }
+
+//Instantiating the class
+$newWilsonInstance = new Wilson();
+
+//activation
+register_activation_hook(__FILE__, array($newWilsonInstance, 'activate'));
+//deactivation
+register_deactivation_hook(__FILE__, array($newWilsonInstance, 'deactivate'));
+//uninstall
