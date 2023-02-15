@@ -1,10 +1,9 @@
 <?php
 /**
  * @package           WilsonFeatures
- * @author            Wilson
- * @copyright         2023 Mbuthia Inc
- * @license           GPL-2.0-or-later
- *
+ */
+
+ /* 
  * Plugin Name:       Wilson Features
  * Plugin URI:        https://github.com/Wyllymk/wilson-features-plugin
  * Description:       Handle the basics with this plugin.
@@ -19,3 +18,26 @@
  * Text Domain:       wilson-features
  * Domain Path:       /languages
  */
+
+/*
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License version 2, as published by the Free Software Foundation. You may NOT assume
+ * that you can use any other version of the GPL.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                        SECURITY CHECK                                   */
+/*-------------------------------------------------------------------------*/
+defined('ABSPATH') or die('Hey you, gerarahia!');
+
+/*-------------------------------------------------------------------------*/
+/*                                                           */
+/*-------------------------------------------------------------------------*/
+if(!class_exists('Wilson')){
+    class Wilson{
+        
+    }
+}
