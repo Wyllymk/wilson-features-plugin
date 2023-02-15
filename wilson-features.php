@@ -33,6 +33,14 @@
 /*-------------------------------------------------------------------------*/
 defined('ABSPATH') or die('Hey you, gerarahia!');
 
+
+if(file_exists(dirname(__FILE__). '/vendor/autoload.php')){
+    require_once dirname(__FILE__). '/vendor/autoload.php';
+}
+
+use Inc\Base\Activate;
+use Inc\Base\Deactivate;
+use Inc\Pages\Admin;
 /*-------------------------------------------------------------------------*/
 /*                                                           */
 /*-------------------------------------------------------------------------*/
@@ -52,12 +60,10 @@ if(!class_exists('Wilson')){
             add_filter("plugin_action_links_$this->plugin", array($this, 'settings_link'));
         }
         public function activate(){
-            require_once plugin_dir_path(__FILE__) . 'inc/Base/Activate.php';
             Activate::activate();
         }
 
         public function deactivate(){
-            require_once plugin_dir_path(__FILE__) . 'inc/Base/Deactivate.php';
             Deactivate::deactivate();
         }
 
