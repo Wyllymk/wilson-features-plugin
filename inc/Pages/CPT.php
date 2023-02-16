@@ -201,7 +201,7 @@ use \Inc\Base\Controller;
          * Render Meta Box content.
          */
         function product_price_box_content( $post ) {
-            require_once $this->plugin_path. '/inc/Pages/form.php';
+            require_once $this->plugin_path. '/templates/form.php';
             }
 
         /**
