@@ -57,7 +57,7 @@ use \Inc\Base\Controller;
         'labels'                => $labels,
         'description'           =>  'Holds our products and product specific data',
         'public'                => true,
-        'menu_icon'             => 'dashicons-products',
+        'menu_icon'             => 'dashicons-store',
         'has_archive'           => true,
         'public_queryable'      => true,
         'show_ui'               => true,
