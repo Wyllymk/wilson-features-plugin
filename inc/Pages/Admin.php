@@ -27,6 +27,12 @@
 
       $this->setSubPages();
 
+      $this->createSettings();
+
+      $this->createSections();
+
+      $this->createFields();
+
       $this->settings->addPages($this->pages)->withSubPage('Dashboard')->addSubPages($this->subpages)->register();
    }
 
@@ -82,7 +88,12 @@
    $params = array(
       array(
          'option_group'    =>    'wilson_options_group',
-         'option_name'     =>    'wilson_example',
+         'option_name'     =>    'first_name',
+         'callback'        =>    array($this->callbacks, 'wilsonOptionsGroup')
+      ),
+      array(
+         'option_group'    =>    'wilson_options_group',
+         'option_name'     =>    'last_name',
          'callback'        =>    array($this->callbacks, 'wilsonOptionsGroup')
       )
    );
@@ -93,7 +104,7 @@
    $params = array(
       array(
          'id'           =>    'wilson_admin_index',
-         'title'        =>    'CPT',
+         'title'        =>    'Settings',
          'callback'     =>    [$this->callbacks, 'wilsonAdminSection'],
          'page'         =>    'wilson_features'
       )
@@ -104,16 +115,27 @@
   public function createFields(){
    $params = array(
       array(
-         'id'           =>    'wilson_example', //get from create settings option_name
-         'title'        =>    'Custom Post Type',
-         'callback'     =>    [$this->callbacks, 'wilsonAdminField'],
+         'id'           =>    'first_name', //get from create settings option_name
+         'title'        =>    'First Name',
+         'callback'     =>    [$this->callbacks, 'wilsonFirstName'],
          'page'         =>    'wilson_features',
          'section'      =>    'wilson_admin_index', //section id from create section id
          'args'         =>    [
             'label_for'    =>    'wilson_example',
             'class'        =>    'example_class'
          ]
-      )
+         ),
+         array(
+            'id'           =>    'last_name', //get from create settings option_name
+            'title'        =>    'Last Name',
+            'callback'     =>    [$this->callbacks, 'wilsonLastName'],
+            'page'         =>    'wilson_features',
+            'section'      =>    'wilson_admin_index', //section id from create section id
+            'args'         =>    [
+               'label_for'    =>    'wilson_example',
+               'class'        =>    'example_class'
+            ]
+         )
    );
    $this->settings->setFields($params);
   }

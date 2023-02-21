@@ -27,8 +27,12 @@ use \Inc\Base\Controller;
     public function wilsonAdminSection(){
         echo 'This is the first Section.';
     }
-    public function wilsonAdminField(){
-        $value = esc_attr(get_option('wilson_example'));
-        echo '<input type="text" class="regular-text name="wilson_example" value="'.$value.'" placeholder="Write something here">';
+    public function wilsonFirstName(){
+        $value = esc_attr(get_option('first_name'));
+        echo '<input type="text" class="regular-text" name="first_name" value="' . $value . '" placeholder="Write First Name here">';
+    }
+    public function wilsonLastName(){
+        $value = esc_attr(get_option('last_name'));
+        echo '<input type="text" class="regular-text" name="last_name" value="' . $value . '" placeholder="Write Last Name here">';
     }
  }
