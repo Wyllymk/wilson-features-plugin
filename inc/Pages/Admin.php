@@ -5,11 +5,10 @@
 
  namespace Inc\Pages;
 
- use \Inc\Base\Controller;
  use \Inc\Api\SettingsApi;
  use \Inc\Api\Callbacks\AdminCallbacks;
  
- class Admin extends Controller{
+ class Admin{
 
    public $settings;
 
@@ -56,7 +55,7 @@
          'menu_title'   =>   'CPT',
          'capability'   =>   'manage_options',
          'menu_slug'    =>   'wilson_cpt',
-         'callback'     =>   function(){echo '<h1>CPT Manager</h1>';},
+         'callback'     =>   array($this->callbacks, 'cptManager'),
       ],
       [
          'parent_slug'  =>   'wilson_features',
@@ -64,7 +63,7 @@
          'menu_title'   =>   'Taxonomies',
          'capability'   =>   'manage_options',
          'menu_slug'    =>   'wilson_taxonomies',
-         'callback'     =>   function(){echo '<h1>Taxonomies Manager</h1>';},
+         'callback'     =>   array($this->callbacks, 'taxonomyManager'),
       ],
       [
          'parent_slug'  =>   'wilson_features',
@@ -72,10 +71,51 @@
          'menu_title'   =>   'Widgets',
          'capability'   =>   'manage_options',
          'menu_slug'    =>   'wilson_widgets',
-         'callback'     =>   function(){echo '<h1>Widgets Manager</h1>';},
+         'callback'     =>   array($this->callbacks, 'widgetsManager'),
       ]
 
    );
 
   }
+
+  public function createSettings(){
+   $params = array(
+      array(
+         'option_group'    =>    'wilson_options_group',
+         'option_name'     =>    'wilson_example',
+         'callback'        =>    array($this->callbacks, 'wilsonOptionsGroup')
+      )
+   );
+   $this->settings->setSettings($params);
+  }
+
+  public function createSections(){
+   $params = array(
+      array(
+         'id'           =>    'wilson_admin_index',
+         'title'        =>    'CPT',
+         'callback'     =>    [$this->callbacks, 'wilsonAdminSection'],
+         'page'         =>    'wilson_features'
+      )
+   );
+   $this->settings->setSections($params);
+  }
+
+  public function createFields(){
+   $params = array(
+      array(
+         'id'           =>    'wilson_example', //get from create settings option_name
+         'title'        =>    'Custom Post Type',
+         'callback'     =>    [$this->callbacks, 'wilsonAdminField'],
+         'page'         =>    'wilson_features',
+         'section'      =>    'wilson_admin_index', //section id from create section id
+         'args'         =>    [
+            'label_for'    =>    'wilson_example',
+            'class'        =>    'example_class'
+         ]
+      )
+   );
+   $this->settings->setFields($params);
+  }
+
 }

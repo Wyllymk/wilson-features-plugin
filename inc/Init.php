@@ -16,10 +16,11 @@
             Base\Enqueue::class,
             Base\SettingsLinks::class,
             Pages\CPT::class,
-            Base\Controller::class
+            Base\Controller::class,
+            Base\WilsonDB::class
         ];
     }
-        /**
+    /**
      * Loop through the classes, initialize them, and call the register() method if it exists
      * @return [type] [description]
      */
