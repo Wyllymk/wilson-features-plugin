@@ -21,6 +21,9 @@ use \Inc\Base\Controller;
     public function widgetsManager(){
         return require_once("$this->plugin_path/templates/Widgetsmanager.php");
     }
+    public function marksEntry(){
+        return require_once("$this->plugin_path/templates/Marks-template.php");
+    }
     public function wilsonOptionsGroup($input){
         return $input;
     }

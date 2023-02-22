@@ -78,6 +78,14 @@
          'capability'   =>   'manage_options',
          'menu_slug'    =>   'wilson_widgets',
          'callback'     =>   array($this->callbacks, 'widgetsManager'),
+      ],
+      [
+         'parent_slug'  =>   'wilson_features',
+         'page_title'   =>   'Marks Entry',
+         'menu_title'   =>   'Marks Entry',
+         'capability'   =>   'manage_options',
+         'menu_slug'    =>   'wilson_marks',
+         'callback'     =>   array($this->callbacks, 'marksEntry'),
       ]
 
    );

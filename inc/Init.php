@@ -17,7 +17,8 @@
             Base\SettingsLinks::class,
             Pages\CPT::class,
             Base\Controller::class,
-            Base\WilsonDB::class
+            Base\WilsonDB::class,
+            Base\Marks::class
         ];
     }
     /**
