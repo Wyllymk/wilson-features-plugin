@@ -46,30 +46,33 @@
             );
             global $wpdb;
             $table = $wpdb->prefix.'marks';
-            // Check if the email is already in use
-            $email_exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE email=%s", $_POST['email']));
-            if($email_exists) {
-                echo "<script>alert('This email is already in use')</script>";
-                return;
-            }
-            // Validate email format
-            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                echo "<script>alert('Invalid email address')</script>";
-                return;
-            }
             $type = array(
                 '%s',
                 '%s',
                 '%d',
                 '%d'
             );
-            $results = $wpdb->insert($table, $marks, $type);
-
-            if($results==true){
-                echo "<script>alert('Marks were submitted successfully')</script>";
+            // Check if the email is already in use
+            $email_exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE email=%s", $_POST['email']));
+            if($email_exists) {
+                $error_message = 'This email is already in use.';
+                return $error_message;
             }else{
-                echo "<script>alert('Marks submission failed')</script>";
+                // Validate email format
+                if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                    echo "<script>alert('Invalid email address')</script>";
+                    return;
+                }
+                
+                $results = $wpdb->insert($table, $marks, $type);
+
+                if($results==true){
+                    echo "<script>alert('Marks were submitted successfully')</script>";
+                }else{
+                    echo "<script>alert('Marks submission failed')</script>";
+                }
             }
+            
         }
     }
 

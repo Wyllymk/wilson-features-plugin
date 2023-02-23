@@ -2,6 +2,9 @@
 <div class="container">
     <div class="row">
         <div class="mx-auto col-10 col-md-8 col-lg-6 card shadow">
+        <?php if(isset($error_message)) { ?>
+                <div class="alert alert-danger"><?php echo $error_message; ?></div>
+        <?php } ?>
             <form class="form"action="" method="post">
                 <div class="form-group">
                     <label for="">Name:</label>

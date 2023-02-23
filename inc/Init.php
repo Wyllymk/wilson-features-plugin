@@ -19,7 +19,8 @@
             Base\Controller::class,
             Base\WilsonDB::class,
             Base\Marks::class,
-            Base\ShortCode::class
+            Base\ShortCode::class,
+            Base\ExternalApi::class
         ];
     }
     /**
