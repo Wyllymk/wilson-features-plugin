@@ -46,6 +46,17 @@
             );
             global $wpdb;
             $table = $wpdb->prefix.'marks';
+            // Check if the email is already in use
+            $email_exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE email=%s", $_POST['email']));
+            if($email_exists) {
+                echo "<script>alert('This email is already in use')</script>";
+                return;
+            }
+            // Validate email format
+            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                echo "<script>alert('Invalid email address')</script>";
+                return;
+            }
             $type = array(
                 '%s',
                 '%s',
@@ -95,13 +106,13 @@
             FOREIGN KEY (marks_id) REFERENCES $marks_table(marks_id) ON DELETE CASCADE
         );";
 
-        // $wpdb->query("CREATE TRIGGER delete_trainees
-        // AFTER DELETE ON $marks_table
-        // FOR EACH ROW
-        // BEGIN
-        //     DELETE FROM $trainees_table
-        //     WHERE ID = OLD.ID;
-        // END;");
+        $wpdb->query("CREATE TRIGGER IF NOT EXISTS delete_trainees
+        AFTER DELETE ON $marks_table
+        FOR EACH ROW
+        BEGIN
+            DELETE FROM $trainees_table
+            WHERE marks_id = OLD.marks_id;
+        END;");
 
         require_once (ABSPATH. 'wp-admin/includes/upgrade.php');
 
@@ -114,27 +125,12 @@
         if (isset($_POST['add_trainee'])) {
             $id = $_POST['marks_id'];
             $table = $wpdb->prefix.'trainees';
-
-            // Get the row data for the selected trainee
-            //$trainee = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}marks WHERE marks_id = $id");
     
             $sql = "INSERT INTO $table (marks_id, name, email, attendance, project) 
                     SELECT  marks_id, name, email, attendance, project 
-                    FROM {$wpdb->prefix}marks ORDER BY trainees_id DESC LIMIT 1";
+                    FROM {$wpdb->prefix}marks WHERE marks_id = $id";
             $wpdb->query($sql);
-            // Insert the row into the new table
 
-            // $wpdb->insert($table, array(
-            //     'name' => $name,
-            //     'email' => $email,
-            //     'attendance' => $attendance,
-            //     'project' => $project,
-            //     'marks_id' => $id // <-- add this line
-            // ));
-    
-            // Redirect back to the same page to prevent resubmission on refresh
-            //wp_redirect(get_permalink());
-            //exit;
         }
     }
 
