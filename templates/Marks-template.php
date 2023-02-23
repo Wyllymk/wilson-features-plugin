@@ -1,30 +1,36 @@
 <h2 class="text-center text-primary"><u>Marks Entry</u> </h2>
-<div class="card shadow">
-    <form action="" method="post">
-        <div class="form-group">
-            <label for="">Name:</label>
-            <input type="text" name="name" id="name" class="form-control" placeholder="Input name">
-        </div>
-        <div class="form-group">
-            <label for="">Email:</label>
-            <input type="text" name="email" id="email" class="form-control" placeholder="Input email">
-        </div>
-        <div class="form-group">
-            <label for="">Attendance:</label>
-            <input type="number" name="attendance" id="attendance" class="form-control" placeholder="Input attendance">
-        </div>
-        <div class="form-group">
-            <label for="">Project:</label>
-            <input type="number" name="project" id="project" class="form-control" placeholder="Marks out of 10">
-        </div>
-        <div class="row justify-content-center">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <input type="submit" name="submitmarks" value="Submit" class="btn btn-primary px-5 mt-2">
+<div class="container">
+    <div class="row">
+        <div class="mx-auto col-10 col-md-8 col-lg-6 card shadow">
+            <form class="form"action="" method="post">
+                <div class="form-group">
+                    <label for="">Name:</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Input name">
                 </div>
+                <div class="form-group">
+                    <label for="">Email:</label>
+                    <input type="text" name="email" id="email" class="form-control" placeholder="Input email">
+                </div>
+                <div class="form-group">
+                    <label for="">Attendance:</label>
+                    <input type="number" min="0" max="100" name="attendance" id="attendance" class="form-control" placeholder="Input attendance">
+                </div>
+                <div class="form-group">
+                    <label for="">Project:</label>
+                    <input type="number" min="0" max="100" name="project" id="project" class="form-control" placeholder="Marks out of 10">
+                </div>
+                <div class="row justify-content-center">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <input type="submit" name="submitmarks" value="Submit" class="btn btn-primary px-5 mt-2">
+                        </div>
 
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+    
 </div>
+
 
 <h2 class="text-center text-warning mt-3"><u>View Marks</u></h2>
 <?php
@@ -43,6 +49,7 @@ $trainees = $wpdb->get_results("SELECT * FROM $table");
                 <th>Attendance Marks</th>
                 <th>Project Marks</th>
                 <th>Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -56,8 +63,14 @@ $trainees = $wpdb->get_results("SELECT * FROM $table");
                     <td><?php echo $trainee->project;?></td>
                     <td>
                         <form action="" method="post">
-                            <input type="hidden" name="id" value="<?php echo $trainee->ID; ?>">
+                            <input type="hidden" name="id" value="<?php echo $trainee->marks_id; ?>">
                             <input type="submit" name="delbtn" class="btn btn-danger" value="Delete">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="hidden" name="marks_id" value="<?php echo $trainee->marks_id; ?>">
+                            <input type="submit" name="add_trainee" class="btn btn-danger" value="Add">
                         </form>
                     </td>
                 </tr>

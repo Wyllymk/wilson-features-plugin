@@ -10,22 +10,25 @@
         $this->create_marks_table();
         $this->enterMarksDB();
         $this->deleteTrainee();
+        $this->create_trainees_table();
+        $this->addTrainee();
+        $this->deleteAddedTrainee();
         //$this->updateTrainee();
         //$this->getOneTrainee();
         //$this->getEmails();
     }
     public static function create_marks_table(){
         global $wpdb;
-        $table = $wpdb->prefix.'marks';
+        $marks_table = $wpdb->prefix.'marks';
 
-        $marks_details = "CREATE TABLE IF NOT EXISTS $table(
-            ID bigint unsigned NOT NULL auto_increment,
+        $marks_details = "CREATE TABLE IF NOT EXISTS $marks_table(
+            marks_id bigint(20) unsigned NOT NULL auto_increment,
             event_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             name text NOT NULL,
             email varchar(30) NOT NULL,
             attendance int NOT NULL,
             project int NOT NULL,
-            PRIMARY KEY (ID)
+            PRIMARY KEY (marks_id)
         );";
 
         require_once (ABSPATH. 'wp-admin/includes/upgrade.php');
@@ -66,7 +69,83 @@
         
         $id = $_POST['id'];
 
-        $results = $wpdb->delete($table, array('ID' => $id));
+        $results = $wpdb->delete($table, array('marks_id' => $id));
+
+        if($results==true){
+            echo "<script>alert('Trainee deleted successfully')</script>";
+        }else{
+            echo "<script>alert('Trainee Deletion failed')</script>";
+        }
+        }
+    }
+
+    public static function create_trainees_table(){
+        global $wpdb;
+        $trainees_table = $wpdb->prefix.'trainees';
+        $marks_table = $wpdb->prefix.'marks';
+        $sql = "CREATE TABLE IF NOT EXISTS $trainees_table(
+            trainees_id bigint(20) unsigned NOT NULL auto_increment,
+            marks_id bigint(20) unsigned NOT NULL,
+            event_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            name text NOT NULL,
+            email varchar(30) NOT NULL,
+            attendance int NOT NULL,
+            project int NOT NULL,
+            PRIMARY KEY (trainees_id),
+            FOREIGN KEY (marks_id) REFERENCES $marks_table(marks_id) ON DELETE CASCADE
+        );";
+
+        // $wpdb->query("CREATE TRIGGER delete_trainees
+        // AFTER DELETE ON $marks_table
+        // FOR EACH ROW
+        // BEGIN
+        //     DELETE FROM $trainees_table
+        //     WHERE ID = OLD.ID;
+        // END;");
+
+        require_once (ABSPATH. 'wp-admin/includes/upgrade.php');
+
+        dbDelta($sql);
+    }
+
+    public function addTrainee(){
+        global $wpdb;
+
+        if (isset($_POST['add_trainee'])) {
+            $id = $_POST['marks_id'];
+            $table = $wpdb->prefix.'trainees';
+
+            // Get the row data for the selected trainee
+            //$trainee = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}marks WHERE marks_id = $id");
+    
+            $sql = "INSERT INTO $table (marks_id, name, email, attendance, project) 
+                    SELECT  marks_id, name, email, attendance, project 
+                    FROM {$wpdb->prefix}marks ORDER BY trainees_id DESC LIMIT 1";
+            $wpdb->query($sql);
+            // Insert the row into the new table
+
+            // $wpdb->insert($table, array(
+            //     'name' => $name,
+            //     'email' => $email,
+            //     'attendance' => $attendance,
+            //     'project' => $project,
+            //     'marks_id' => $id // <-- add this line
+            // ));
+    
+            // Redirect back to the same page to prevent resubmission on refresh
+            //wp_redirect(get_permalink());
+            //exit;
+        }
+    }
+
+    public function deleteAddedTrainee(){
+        if(isset($_POST['deltrainee'])){
+        global $wpdb;
+        $table = $wpdb->prefix.'trainees';
+        
+        $id = $_POST['id'];
+
+        $results = $wpdb->delete($table, array('trainees_id' => $id));
 
         if($results==true){
             echo "<script>alert('Trainee deleted successfully')</script>";

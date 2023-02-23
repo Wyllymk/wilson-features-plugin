@@ -24,6 +24,10 @@ use \Inc\Base\Controller;
     public function marksEntry(){
         return require_once("$this->plugin_path/templates/Marks-template.php");
     }
+    public function marksView(){
+        return require_once("$this->plugin_path/templates/Viewmarks.php");
+    }
+
     public function wilsonOptionsGroup($input){
         return $input;
     }
