@@ -1,10 +1,20 @@
-name: deploy
+name: Deploy to Local WordPress
+
 on:
   push:
     branches:
-      # Pushing to the `main` branch
-      # will trigger our workflow
       - main
-    paths-ignore:
-      - 'bin/**'
-      - 'README.m
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Local WordPress
+        run: |
+          bash deploy.sh
+        env:
+          YOUR_PLUGIN_DIRECTORY: ${{ secrets.YOUR_PLUGIN_DIRECTORY }}
+        shell: bash
