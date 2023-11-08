@@ -1,0 +1,10 @@
+name: deploy
+on:
+  push:
+    branches:
+      # Pushing to the `main` branch
+      # will trigger our workflow
+      - main
+    paths-ignore:
+      - 'bin/**'
+      - 'README.m
